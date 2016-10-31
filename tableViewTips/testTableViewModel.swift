@@ -14,20 +14,10 @@ class testTableViewModel: NSObject,UITableViewDelegate,UITableViewDataSource {
         return 100
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.target.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let bottomView = cell.contentView.viewWithTag(2000)
-        let image = bottomView?.viewWithTag(2001)
-        image?.bounds.size.height = UIScreen.main.bounds.size.width
-        let rect = bottomView?.convert((bottomView?.bounds)!, to: nil)
-        var Y = -(rect?.origin.y)! * 200 / (UIScreen.main.bounds.size.height - UIScreen.main.bounds.size.width + 200)
-        if Y < -200{
-            Y = -200
-        }else if Y > 0{
-            Y = 0
-        }
-        image?.frame.origin.y = Y
+       let cell = self.target.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UIScreen.main.bounds.size.width - 200
     }
@@ -35,7 +25,9 @@ class testTableViewModel: NSObject,UITableViewDelegate,UITableViewDataSource {
         for cell in self.target.visibleCells{
             let bottomView = cell.contentView.viewWithTag(2000)
             let image = bottomView?.viewWithTag(2001)
-            image?.bounds.size.height = UIScreen.main.bounds.size.width
+            if image?.bounds.size.height != UIScreen.main.bounds.size.width{
+                image?.bounds.size.height = UIScreen.main.bounds.size.width
+            }
             let rect = bottomView?.convert((bottomView?.bounds)!, to: nil)
             var Y = -(rect?.origin.y)! * 200 / (UIScreen.main.bounds.size.height - UIScreen.main.bounds.size.width + 200)
             if Y < -200{
@@ -45,8 +37,5 @@ class testTableViewModel: NSObject,UITableViewDelegate,UITableViewDataSource {
             }
             image?.frame.origin.y = Y
         }
-        
-        
     }
-    
 }
